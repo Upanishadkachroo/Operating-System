@@ -13,3 +13,5 @@ exec sleep 100
 
 # 1.to check any exisiting zombie process
 #   ps -elf | grep Z
+# 2. The background sleep 1& processes complete quickly, but the parent script doesn't collect their exit statuses, causing them to become zombie processes.
+# 3. Solution: To avoid zombies, add wait in the parent process to ensure it collects the status of child processes before it terminates
