@@ -11,8 +11,28 @@ class Boundedbuffer{
     int in=0;
     int out=0;
     int cnt=0;
+
+    mutex mt;
+    condition_variable not_full;
+    condition_variable not_empty;
+
+    public:
+
 }
 
 int main(){
     Boundedbuffer<int> buffer;
+
+    thread producer([&buffer](){
+        for(int i=1; i<=10; i++){
+            buffer.produce(i);
+            this.thread::sleep_for(chrono::milliseconds(200))l
+        }
+    });
+
+    thread consumer([&buffer](){
+        for(int i=0; i<10; i++){
+            
+        }
+    })
 }
