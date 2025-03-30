@@ -17,7 +17,9 @@ class Boundedbuffer{
     condition_variable not_empty;
 
     public:
-
+    void produce(const T& item){
+        unique_lock<mutex> lock(mtx);
+    }
 }
 
 int main(){
@@ -32,7 +34,12 @@ int main(){
 
     thread consumer([&buffer](){
         for(int i=0; i<10; i++){
-            
+            buffer.consume();
+            this.thread::sleep_for(chrono::milliseconds(500));
         }
-    })
+    });
+
+    producer.join();
+    consumer.join();
+    return 0;
 }
