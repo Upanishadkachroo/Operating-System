@@ -1,45 +1,86 @@
-#include<iostream>
-#include<array>
-#include<thread>
-using namspace std;
-constexpr int BUFFER_SIZE=5;
+#include <iostream>
+#include <array>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <chrono>
+
+using namespace std;
+
+constexpr int BUFFER_SIZE = 5; // Fixed-size circular buffer
 
 template <typename T>
-class Boundedbuffer{
-    private:
-    array<T, BUFFER_SIZE> buffer;
-    int in=0;
-    int out=0;
-    int cnt=0;
+class BoundedBuffer {
+private:
+    array<T, BUFFER_SIZE> buffer; // Fixed-size array
+    int in = 0;  // Next producer insert position
+    int out = 0;  // Next consumer remove position
+    int count = 0; // Current number of items
 
-    mutex mt;
-    condition_variable not_full;
-    condition_variable not_empty;
+    mutex mtx; // Protects buffer access
+    condition_variable not_full;  // Signal when buffer is not full
+    condition_variable not_empty; // Signal when buffer is not empty
 
-    public:
-    void produce(const T& item){
+public:
+    void produce(const T& item) {
         unique_lock<mutex> lock(mtx);
+        
+        // Wait until buffer is not full
+        not_full.wait(lock, [this]() { return count < BUFFER_SIZE; });
+
+        // Insert item
+        buffer[in] = item;
+        in = (in + 1) % BUFFER_SIZE; // Circular increment
+        ++count;
+
+        cout << "Produced: " << item << " (Buffer size: " << count << ")\n";
+        
+        // Notify consumer that buffer is not empty
+        not_empty.notify_one();
     }
-}
 
-int main(){
-    Boundedbuffer<int> buffer;
+    T consume() {
+        unique_lock<mutex> lock(mtx);
+        
+        // Wait until buffer is not empty
+        not_empty.wait(lock, [this]() { return count > 0; });
 
-    thread producer([&buffer](){
-        for(int i=1; i<=10; i++){
+        // Extract item
+        T item = buffer[out];
+        out = (out + 1) % BUFFER_SIZE; // Circular increment
+        --count;
+
+        cout << "Consumed: " << item << " (Buffer size: " << count << ")\n";
+        
+        // Notify producer that buffer is not full
+        not_full.notify_one();
+        
+        return item;
+    }
+};
+
+// Example usage
+int main() {
+    BoundedBuffer<int> buffer;
+
+    // Producer thread (produces numbers 1-10)
+    thread producer([&buffer]() {
+        for (int i = 1; i <= 10; ++i) {
             buffer.produce(i);
-            this.thread::sleep_for(chrono::milliseconds(200))l
+            this_thread::sleep_for(chrono::milliseconds(200)); // Simulate work
         }
     });
 
-    thread consumer([&buffer](){
-        for(int i=0; i<10; i++){
+    // Consumer thread (consumes numbers)
+    thread consumer([&buffer]() {
+        for (int i = 0; i < 10; ++i) {
             buffer.consume();
-            this.thread::sleep_for(chrono::milliseconds(500));
+            this_thread::sleep_for(chrono::milliseconds(500)); // Simulate work
         }
     });
 
     producer.join();
     consumer.join();
+
     return 0;
 }
