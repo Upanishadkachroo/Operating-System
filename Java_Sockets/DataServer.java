@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -11,11 +12,18 @@ public class DataServer {
             //listen to the connection
             while(true){
                 Socket client=sock.accept();
+                PrintWriter pout=new PrintWriter(client.getOutputStream(), true);
 
+                //write & pass data to the socket
+                pout.println(new java.util.Date().toString());
+
+                //close the socket and resume listening
+                client.close();
             }
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            System.err.println(e);
         }
     }
 }
