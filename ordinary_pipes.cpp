@@ -7,7 +7,7 @@
 #define WRITE_END 1
 
 int main(){
-    char write_msg[BUFFER_SIZE]="Greetings";
+    char write_msg[BUFFER_SIZE]="Hi Upanishad Kachroo";
     char read_msg[BUFFER_SIZE];
 
     int fd[2];//store file descriptors from pipe
@@ -41,3 +41,8 @@ int main(){
     }
     return 0;
 }
+
+
+// Parent Process                        Child Process
+// write message  ->>-->> PIPE ->>-->>  Read Message
+// fd([0])                                  fd([1])
