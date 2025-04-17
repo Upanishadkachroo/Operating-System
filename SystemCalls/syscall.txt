@@ -1,0 +1,22 @@
+TO DEMONSTRATE THE SYSTEM CALLS MADE ON MY ANDROID DEVICE IN MY LINUX TERMINAL
+
+*strace to capture all low-level system 
+  pkg update
+  pkg install strace
+
+*termux-setup-storage - enable Termux to access your storage and ADB
+
+
+1. Inside Termux run
+   strace -o /storage/emulated/0/Download/trace.log ls -la // logs syscalls to a file in the phone’s Downloads folder
+   strace -o /storage/emulated/0/Download/trace.log sleep 2 //sleep makes a system calls
+   strace -o /storage/emulated/0/Download/trace.log am start -n com.android.camera/com.android.camera.Camera //Android command to launch the Camera app
+   strace -o /storage/emulated/0/Download/trace.log am start -n com.android.gallery3d/com.android.gallery3d.app.Gallery
+
+
+2. Inside Linux Terminal
+   adb shell cat /sdcard/Download/trace.log
+
+
+3. Real Time calls inside termux
+   tail -f /storage/emulated/0/Download/trace.log
