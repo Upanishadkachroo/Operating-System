@@ -1,0 +1,5 @@
+Algorithm,PageFaults,PageHits
+LRU,6,0
+MRU,6,0
+MRU,24,0
+MRU,14,4

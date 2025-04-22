@@ -53,7 +53,7 @@ Stats simulatelru(int framecnt, const vector<int> &ip_string){
             }
             used[pg]=i;
             printframes(frames);
-            cout<<"PAGE FAYLT"<<endl;
+            cout<<"PAGE FAULT"<<endl;
         }
     }
     return stats;
@@ -70,7 +70,7 @@ int main(){
     }
 
     int framecnt, n;
-    cout<<"ENter no. of frames";
+    cout<<"Enter no. of frames";
     cin>>framecnt;
 
     cout<<"Enter the length of ip_string";
