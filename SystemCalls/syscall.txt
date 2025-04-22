@@ -20,3 +20,12 @@ TO DEMONSTRATE THE SYSTEM CALLS MADE ON MY ANDROID DEVICE IN MY LINUX TERMINAL
 
 3. Real Time calls inside termux
    tail -f /storage/emulated/0/Download/trace.log
+
+
+4. After running on Termux fetch it in linux local system
+   adb devices //see your device listed.
+   adb pull /storage/emulated/0/Download/trace.log
+   cat trace_camera.log // same as step 2
+
+
+
