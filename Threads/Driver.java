@@ -52,7 +52,7 @@ public class Driver {
             // Create a shared Sum object to store the result
             Sum sumObject = new Sum();
 
-            // Create a thread with the Summation task
+            // Create a thread with the Summation tasks
             Thread thread = new Thread(new Summation(upper, sumObject));
 
             thread.start();
