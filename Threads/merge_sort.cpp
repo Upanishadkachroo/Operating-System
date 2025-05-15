@@ -26,7 +26,7 @@ void merge(vector<int>& arr, int left, int mid, int right) {
         arr[left + l] = temp[l];
 }
 
-// Recursive merge sort with multithreading (depth control ke sath)
+// Recursive merge sort with multithreading 
 void mergeSort(vector<int>& arr, int left, int right, int depth = 0) {
     if (left >= right)
         return;
@@ -51,15 +51,15 @@ void mergeSort(vector<int>& arr, int left, int right, int depth = 0) {
 
 int main() {
     int n;
-    cout << "Array ke size ko enter karo: ";
+    cout << "Enter size of array: ";
     cin >> n;
 
     vector<int> arr(n);
-    cout << "Array ke elements enter karo:\n";
+    cout << "Enter array elements:\n";
     for (int i = 0; i < n; ++i)
         cin >> arr[i];
 
-    cout << "Sorting se pehle array:\n";
+    cout << "Array before sorting:\n";
     for (int num : arr)
         cout << num << " ";
     cout << "\n";
@@ -67,7 +67,7 @@ int main() {
     // Multithreaded merge sort call karo
     mergeSort(arr, 0, arr.size() - 1);
 
-    cout << "Sorting ke baad array:\n";
+    cout << "Sorted array:\n";
     for (int num : arr)
         cout << num << " ";
     cout << "\n";
